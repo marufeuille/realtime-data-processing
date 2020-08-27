@@ -11,6 +11,8 @@ REALTIME-DATA-PROCESSING
   - kafka-docker/ (clone from https://github.com/wurstmeister/kafka-docker)
 - src/
   - spark-code
+- work-container
+  - Dockerfile for work container
 - docker-compose.yml
 ```
 
@@ -25,12 +27,13 @@ docker exec -it realtime-data-processing_work_1 /bin/bash
 ```
 
 ## create topics on kafka
+- in work container
 ```
 kafka-topics.sh --create --zookeeper realtime-data-processing_zookeeper_1:2181 --replication-factor 1 --partitions 3 --topic TOPIC_NAME
 ```
 
-## send data to kafka via fluentd
-
+## send data to kafka via fluentd(http)
+- in work container
 ```
 curl -X POST -d 'json={"id":1851632, "date":"2020-08-22 01:00", "coord": {"lon": 143.19, "lat": 42.92}, "main":{"temperature": 10.6, "humidity": 99, "ph": 5.5, "whc": 64.6}}' http://realtime-data-processing_fluentd_1:9999/sensor.data
 ```
@@ -42,6 +45,7 @@ $ docker inspect realtime-data-processing_spark_1 | jq -c .[0].NetworkSettings.N
 "172.20.0.4"
 ```
 
+- in work container
 - submit job
 ```
 spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --class org.apache.spark.examples.SparkPi --master spark://172.20.0.4:7077 /data/src/realtime_processing.py
