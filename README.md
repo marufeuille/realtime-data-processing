@@ -38,6 +38,14 @@ kafka-topics.sh --create --zookeeper realtime-data-processing_zookeeper_1:2181 -
 curl -X POST -d 'json={"id":1851632, "date":"2020-08-22 01:00", "coord": {"lon": 143.19, "lat": 42.92}, "main":{"temperature": 10.6, "humidity": 99, "ph": 5.5, "whc": 64.6}}' http://realtime-data-processing_fluentd_1:9999/sensor.data
 ```
 
+## send data to kafka via fluentd(local log file)
+- (by default) in local machine
+- write log to ./log/sensor_data.log
+- format is json, structure is following.
+```
+{"id": 1, "date": "2020/08/23 11:24:52", "coord": {"lon": 143.19, "lat": 42.92}, "main": {"humidity": 89, "temperature": -2.2, "ph": 6.5, "whc": 40.9}}
+```
+
 ## spark-submit
 - get container ip address
 ```
