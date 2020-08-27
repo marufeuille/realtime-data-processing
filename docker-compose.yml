@@ -69,6 +69,15 @@ services:
       - SPARK_SSL_ENABLED=no
     networks:
       - realtime-data-nw
+  work:
+    build: 
+      context: ./work-container/
+      dockerfile: Dockerfile
+    networks:
+      - realtime-data-nw
+    volumes:
+      - .:/data
+    tty: true
 networks:
   realtime-data-nw:
     driver: bridge
